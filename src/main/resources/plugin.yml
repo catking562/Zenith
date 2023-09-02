@@ -1,0 +1,16 @@
+name: zenith
+main: taewookim.zenith.ZenithPlugin
+version: Umm...
+api-version: 1.20
+author: taewookim562
+website: https://www.youtube.com/channel/UCA_CwuNjNEneAEbi_m27ILg
+
+commands:
+  offzenithplugin:
+    permission: zenith.admin
+  getweapon:
+    permission: zenith.admin
+
+permissions:
+  zenith.admin:
+    default: op

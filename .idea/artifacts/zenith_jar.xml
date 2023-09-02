@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="zenith:jar">
+    <output-path>$USER_HOME$/Desktop/기본파일/버킷/1.20.1/plugins</output-path>
+    <root id="archive" name="zenith.jar">
+      <element id="module-output" name="zenith" />
+    </root>
+  </artifact>
+</component>
