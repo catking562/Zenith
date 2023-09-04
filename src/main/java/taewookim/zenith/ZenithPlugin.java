@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import taewookim.zenith.commands.getweapon;
 import taewookim.zenith.commands.offplugin;
+import taewookim.zenith.events.DontFireWorkDamage;
 import taewookim.zenith.events.Event;
 import taewookim.zenith.skills.Skill;
 
@@ -58,6 +59,7 @@ public class ZenithPlugin extends JavaPlugin {
         Bukkit.getPluginCommand("getweapon").setExecutor(g);
         Bukkit.getPluginCommand("getweapon").setTabCompleter(g);
         Bukkit.getPluginManager().registerEvents(new Event(), this);
+        Bukkit.getPluginManager().registerEvents(new DontFireWorkDamage(), this);
         Update();
     }
 

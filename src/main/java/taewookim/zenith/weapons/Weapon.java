@@ -9,12 +9,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import taewookim.zenith.ZenithPlugin;
 import taewookim.zenith.skills.*;
+import taewookim.zenith.skills.Entity.Zenith;
 
 import java.util.UUID;
 
 public enum Weapon {
 
-    ZENITH("§4제니스", 1, 10, 190, Skill.class),
+    ZENITH("§4제니스", 1, 10, 190, InfinityPlusTwo.class),
     COPPER_SHORTSWORD("§7구리 단검", 2, 5, 5, Skill.class),
     STARFURY("§5스타퓨리", 3, 20, 25, Starfury.class),
     ENCHANTED_SWORD("§9마법의 검", 4, 20, 23, Enchanted_Sword.class),
@@ -22,9 +23,9 @@ public enum Weapon {
     SEEDLER("§a시들러", 6, 7, 50, Seed.class),
     THE_HORSEMANS_BLADE("§c기수의 검", 7, 8, 150, Horseman.class),
     TERRA_BLADE("§2테라 블레이드", 8, 7, 85, Terra.class),
-    INFLUX_WAVER("§3인플럭스 웨이버", 9, 6, 100, Skill.class),
-    STAR_WRATH("§6별의 진노", 10, 5, 170, Skill.class),
-    MEOWMERE("§d미야우미어", 11, 4, 200, Skill.class),
+    INFLUX_WAVER("§3인플럭스 웨이버", 9, 6, 100, Influx.class),
+    STAR_WRATH("§6별의 진노", 10, 5, 170, StarWrath.class),
+    MEOWMERE("§d미야우미어", 11, 4, 200, Meow.class),
     TRUE_EXCALIBUR("§f진정한 엑스칼리버", 12, 6, 72, Skill.class),
     TRUE_NIGHTS_EDGE("§1진정한 밤의 칼날", 13, 10, 70, Skill.class),
     BROKEN_HERO_SWORD("§0부셔진 영웅의 검", 14, 0, 0, Skill.class),
@@ -34,7 +35,7 @@ public enum Weapon {
     BLOOD_BUTCHERER("§c피의 도살자", 18, 5, 22, Skill.class),
     MURAMASA("§3무라마사", 19, 6, 24, Skill.class),
     BLADE_OF_GRASS("§2초목의 검", 20, 5, 18, Skill.class),
-    VOLCANO("§c볼케이노", 21, 13, 40, Skill.class);
+    VOLCANO("§c볼케이노", 21, 13, 40, Volcano.class);
 
 
 
