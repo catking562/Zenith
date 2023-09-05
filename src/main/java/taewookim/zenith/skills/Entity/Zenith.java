@@ -29,8 +29,10 @@ public class Zenith extends Display.ItemDisplay {
     org.bukkit.entity.ItemDisplay dis;
     double a;
     double b;
+    int num;
+    int size;
 
-    public Zenith(World world, Location loc, Location targetloc, Player p, int num) {
+    public Zenith(World world, Location loc, Location targetloc, Player p, int num, int size, double dd) {
         super(EntityTypes.ae, world);
         this.getBukkitEntity().teleport(p.getLocation().add(p.getLocation().getDirection().multiply(2)));
         ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
@@ -39,7 +41,8 @@ public class Zenith extends Display.ItemDisplay {
         i.setItemMeta(m);
         dis = (org.bukkit.entity.ItemDisplay) this.getBukkitEntity();
         Transformation tran = dis.getTransformation();
-        tran.getScale().set(3,3,3);
+        tran.getScale().set(size,size,size);
+        tran.getTranslation().set(0, 1.5, 0);
         dis.setTransformation(tran);
         dis.setItemStack(i);
         this.p = p;
@@ -47,8 +50,10 @@ public class Zenith extends Display.ItemDisplay {
         distan = loc.distance(targetloc);
         v = new Vector(targetloc.getX()-loc.getX(), targetloc.getY()-loc.getY(), targetloc.getZ()-loc.getZ());
         v.multiply(1.0D/distan);
-        a=Math.sqrt(distan+2);
+        a=Math.sqrt(distan+2)*dd;
         b=distan+2;
+        this.num = num;
+        this.size = size;
         ZenithPlugin.entities.add(this.getBukkitEntity());
     }
 
@@ -71,14 +76,14 @@ public class Zenith extends Display.ItemDisplay {
 
     public void SpawnParticle(Color color) {
         for(Player p : dI().getWorld().getPlayers()) {
-            p.spawnParticle(Particle.REDSTONE, this.getBukkitEntity().getLocation(), 10, 0.25, 0.25, 0.25, 0, new Particle.DustOptions(color, 1));
+            p.spawnParticle(Particle.REDSTONE, this.getBukkitEntity().getLocation(), 1, 0, 0, 0, 0, new Particle.DustOptions(color, size*0.2f));
         }
     }
 
     @Override
     public void postTick() {
-        for(int j =0;j<5;j++) {
-           time+=distan/25.0D;
+        for(int j =0;j<10;j++) {
+           time+=distan/50.0D;
            Location ll = getLocation(time);
            ll.setDirection(getLocation(time+1.0D/3.0D).add(getLocation(time).multiply(-1)).toVector());
            try{
@@ -90,7 +95,49 @@ public class Zenith extends Display.ItemDisplay {
                     le.damage(Weapon.ZENITH.getDamge(), p);
                 }
            }
-           SpawnParticle(Color.AQUA);
+           Color color = Color.AQUA;
+           switch(num) {
+               case 0:
+                   color = Color.AQUA;
+                   break;
+               case 1:
+                   color = Color.OLIVE;
+                   break;
+               case 2:
+                   color = Color.ORANGE;
+                   break;
+               case 3:
+                   color = Color.RED;
+                   break;
+               case 4:
+                   color = Color.YELLOW;
+                   break;
+               case 5:
+                   color = Color.GRAY;
+                   break;
+               case 6:
+                   color = Color.FUCHSIA;
+                   break;
+               case 7:
+                   color = Color.NAVY;
+                   break;
+               case 8:
+                   color = Color.GREEN;
+                   break;
+               case 9:
+                   color = Color.LIME;
+                   break;
+               case 10:
+                   color = Color.PURPLE;
+                   break;
+               case 11:
+                   color = Color.MAROON;
+                   break;
+               case 12:
+                   color = Color.BLUE;
+                   break;
+           }
+           SpawnParticle(color);
         }
         if(time>=distan*2+4) {
             ZenithPlugin.entities.remove(this.getBukkitEntity());
