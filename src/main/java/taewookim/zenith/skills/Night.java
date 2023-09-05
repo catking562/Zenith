@@ -11,6 +11,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.util.BoundingBox;
 import taewookim.zenith.skills.Entity.NightEntity;
 import taewookim.zenith.skills.Entity.TrueExcaliburEntity;
+import taewookim.zenith.skills.Entity.TrueNightDis;
 import taewookim.zenith.skills.Entity.TrueNightEntity;
 import taewookim.zenith.weapons.Weapon;
 
@@ -22,7 +23,7 @@ public class Night extends Skill {
     @Override
     public void Update() {
         World w = ((CraftWorld)p.getWorld()).getHandle();
-        TrueNightEntity en1 = new TrueNightEntity(w, p.getLocation(), p);
+        TrueNightDis en1 = new TrueNightDis(w, p.getLocation(), p);
         w.addFreshEntity(en1, CreatureSpawnEvent.SpawnReason.COMMAND);
         p.getWorld().playSound(p, Sound.ENTITY_WITHER_SHOOT, 1, 2);
         for(Entity en : p.getWorld().getNearbyEntities(BoundingBox.of(p.getLocation(), 12, 3, 12))) {

@@ -46,7 +46,7 @@ public class TrueNightEntity extends Display.ItemDisplay {
         this.getBukkitEntity().teleport(this.getBukkitEntity().getLocation().add(v));
         i++;
         Transformation tran = dis.getTransformation();
-        double k = (Math.PI*i)/60.0D;
+        double k = (Math.PI*i)/5.0D;
         tran.getLeftRotation().set(0, (float) Math.sin(k), 0, (float) Math.cos(k));
         dis.setTransformation(tran);
         switch(i) {

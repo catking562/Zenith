@@ -53,8 +53,8 @@ public class ExcaliburEntity extends Display.ItemDisplay {
         for(int j = 0; j<3;j++) {
             yaw -= 12.5f;
             loc.setYaw(loc.getYaw()+12.5f);
-            loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(loc.getDirection().multiply(3.5)), 10, 0.2, 0.2, 0.2, 0, new Particle.DustOptions(Color.FUCHSIA, 1));
-            loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(loc.getDirection().multiply(1.75)), 50, 1, 0.1, 1, 0, new Particle.DustOptions(Color.YELLOW, 0.5f));
+            loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(loc.getDirection().multiply(2.75)), 10, 0.2, 0.2, 0.2, 0, new Particle.DustOptions(Color.YELLOW, 1));
+            loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(loc.getDirection().multiply(1.375)), 50, 0.5, 0.1, 0.5, 0, new Particle.DustOptions(Color.OLIVE, 0.5f));
             Transformation tran = dis.getTransformation();
             float angle = (float) (yaw*ra);
             tran.getLeftRotation().set(0,
