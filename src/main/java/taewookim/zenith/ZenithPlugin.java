@@ -9,7 +9,10 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
@@ -98,16 +101,15 @@ public class ZenithPlugin extends JavaPlugin {
         Bukkit.addRecipe(blood);
         //초목의 검
         ShapedRecipe grass = new ShapedRecipe(Weapon.BLADE_OF_GRASS.getItem());
-        grass.shape("1","2","3");
-        grass.setIngredient('1', Material.TALL_GRASS);
-        grass.setIngredient('2', Material.GRASS_BLOCK);
-        grass.setIngredient('3', Material.WOODEN_SWORD);
+        grass.shape("1","1","2");
+        grass.setIngredient('1', Material.GRASS_BLOCK);
+        grass.setIngredient('2', Material.WOODEN_SWORD);
         Bukkit.addRecipe(grass);
         //불케이노
         ShapedRecipe volcano = new ShapedRecipe(Weapon.VOLCANO.getItem());
         volcano.shape("121","343","121");
         volcano.setIngredient('1', Material.AIR);
-        volcano.setIngredient('2', Material.FIRE);
+        volcano.setIngredient('2', Material.FIRE_CHARGE);
         volcano.setIngredient('3', Material.LAVA_BUCKET);
         volcano.setIngredient('4', Material.IRON_SWORD);
         Bukkit.addRecipe(volcano);
@@ -139,22 +141,37 @@ public class ZenithPlugin extends JavaPlugin {
         itemcreator.removeAll(removingcrea);
     }
 
+    public boolean isSimuler(ItemStack i1, ItemStack i2) {
+        if(i1.hasItemMeta()&&i2.hasItemMeta()) {
+            ItemMeta m1 = i1.getItemMeta();
+            ItemMeta m2 = i2.getItemMeta();
+            if(m1.hasDisplayName()&&m2.hasDisplayName()&&m1.getDisplayName().equalsIgnoreCase(m2.getDisplayName())) {
+                PersistentDataContainer container1 = m1.getPersistentDataContainer();
+                PersistentDataContainer container2 = m2.getPersistentDataContainer();
+                if(container1.has(skillkey, PersistentDataType.STRING)&&container2.has(skillkey, PersistentDataType.STRING)&&container1.get(skillkey, PersistentDataType.STRING).equalsIgnoreCase(container2.get(skillkey, PersistentDataType.STRING))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void ItemCheck() {
         for(World w : Bukkit.getWorlds()) {
             for(Entity en : w.getEntities()) {
                 if(en instanceof Item it) {
-                    Material material = en.getLocation().add(0, -1, 0).getBlock().getType();
+                    Material material = en.getLocation().add(0, -0.5, 0).getBlock().getType();
                     if(material.equals(Material.ANVIL)||material.equals(Material.CHIPPED_ANVIL)||material.equals(Material.DAMAGED_ANVIL)) {
-                        if(it.getItemStack().equals(Weapon.BROKEN_HERO_SWORD)) {
+                        if(isSimuler(it.getItemStack(), Weapon.BROKEN_HERO_SWORD.getItem())) {
                             List<Entity> list = (List<Entity>) it.getWorld().getNearbyEntities(BoundingBox.of(it.getLocation(), 0.1, 0.1, 0.1));
                             if(list.size()==3) {
                                 boolean isexcal = false;
                                 boolean isnight = false;
                                 for(Entity item : list) {
                                     if(!it.equals(item)&&item instanceof Item ite) {
-                                        if(ite.getItemStack().equals(Weapon.TRUE_EXCALIBUR)) {
+                                        if(isSimuler(ite.getItemStack(), Weapon.TRUE_EXCALIBUR.getItem())) {
                                             isexcal=true;
-                                        }else if(ite.getItemStack().equals(Weapon.TRUE_NIGHTS_EDGE)){
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.TRUE_NIGHTS_EDGE.getItem())){
                                             isnight=true;
                                         }
                                     }
@@ -167,7 +184,7 @@ public class ZenithPlugin extends JavaPlugin {
                                     }
                                 }
                             }
-                        }else if(it.getItemStack().equals(Weapon.EXCALIBUR)) {
+                        }else if(isSimuler(it.getItemStack(), Weapon.EXCALIBUR.getItem())) {
                             List<Entity> list = (List<Entity>) it.getWorld().getNearbyEntities(BoundingBox.of(it.getLocation(), 0.1, 0.1, 0.1));
                             if(list.size()==2) {
                                 for(Entity item : list) {
@@ -182,7 +199,7 @@ public class ZenithPlugin extends JavaPlugin {
                                     }
                                 }
                             }
-                        }else if(it.getItemStack().equals(Weapon.NIGHTS_EDGE)) {
+                        }else if(isSimuler(it.getItemStack(), Weapon.NIGHTS_EDGE.getItem())) {
                             List<Entity> list = (List<Entity>) it.getWorld().getNearbyEntities(BoundingBox.of(it.getLocation(), 0.1, 0.1, 0.1));
                             if(list.size()==4) {
                                 boolean isbone = false;
@@ -206,7 +223,7 @@ public class ZenithPlugin extends JavaPlugin {
                                     }
                                 }
                             }
-                        }else if(it.getItemStack().equals(Weapon.MURAMASA)) {
+                        }else if(isSimuler(it.getItemStack(), Weapon.MURAMASA.getItem())) {
                             List<Entity> list = (List<Entity>) it.getWorld().getNearbyEntities(BoundingBox.of(it.getLocation(), 0.1, 0.1, 0.1));
                             if(list.size()==5) {
                                 boolean islight = false;
@@ -215,19 +232,62 @@ public class ZenithPlugin extends JavaPlugin {
                                 boolean isvolca = false;
                                 for(Entity item : list) {
                                     if(!item.equals(it)&&item instanceof Item ite) {
-                                        if(ite.getItemStack().equals(Weapon.LIGHTS_BANE)) {
+                                        if(isSimuler(ite.getItemStack(), Weapon.LIGHTS_BANE.getItem())) {
                                             islight = true;
-                                        }else if(ite.getItemStack().equals(Weapon.BLOOD_BUTCHERER)) {
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.BLOOD_BUTCHERER.getItem())) {
                                             isblood = true;
-                                        }else if(ite.getItemStack().equals(Weapon.BLADE_OF_GRASS)) {
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.BLADE_OF_GRASS.getItem())) {
                                             isgrass = true;
-                                        }else if(ite.getItemStack().equals(Weapon.VOLCANO)) {
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.VOLCANO.getItem())) {
                                             isvolca = true;
                                         }
                                     }
                                 }
                                 if(islight&&isblood&&isgrass&&isvolca) {
                                     ItemCreateEntity crea = new ItemCreateEntity(Weapon.NIGHTS_EDGE.getItem(), it.getLocation());
+                                    itemcreator.add(crea);
+                                    for(Entity en1 : list) {
+                                        en1.remove();
+                                    }
+                                }
+                            }
+                        }else if(isSimuler(it.getItemStack(), Weapon.COPPER_SHORTSWORD.getItem())) {
+                            List<Entity> list = (List<Entity>) it.getWorld().getNearbyEntities(BoundingBox.of(it.getLocation(), 0.1, 0.1, 0.1));
+                            if(list.size()==10) {
+                                boolean isstarfury = false;
+                                boolean isenchante = false;
+                                boolean isbeesword = false;
+                                boolean isseedlers = false;
+                                boolean isthehorse = false;
+                                boolean isterrabla = false;
+                                boolean isinfluxwa = false;
+                                boolean isstarwrat = false;
+                                boolean ismeowcats = false;
+                                for(Entity item : list) {
+                                    if(!item.equals(it)&&item instanceof Item ite) {
+                                        if(isSimuler(ite.getItemStack(), Weapon.STARFURY.getItem())) {
+                                            isstarfury = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.ENCHANTED_SWORD.getItem())) {
+                                            isenchante = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.BEE_KEEPER.getItem())) {
+                                            isbeesword = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.SEEDLER.getItem())) {
+                                            isseedlers = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.THE_HORSEMANS_BLADE.getItem())) {
+                                            isthehorse = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.TERRA_BLADE.getItem())) {
+                                            isterrabla = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.INFLUX_WAVER.getItem())) {
+                                            isinfluxwa = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.STAR_WRATH.getItem())) {
+                                            isstarwrat = true;
+                                        }else if(isSimuler(ite.getItemStack(), Weapon.MEOWMERE.getItem())) {
+                                            ismeowcats = true;
+                                        }
+                                    }
+                                }
+                                if(isstarfury&&isenchante&&isbeesword&&isseedlers&&isthehorse&&isterrabla&&isstarwrat&&isinfluxwa&&ismeowcats) {
+                                    ItemCreateEntity crea = new ItemCreateEntity(Weapon.ZENITH.getItem(), it.getLocation());
                                     itemcreator.add(crea);
                                     for(Entity en1 : list) {
                                         en1.remove();

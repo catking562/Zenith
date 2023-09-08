@@ -16,6 +16,9 @@ import java.util.Random;
 public class InfinityPlusTwo extends Skill {
     public InfinityPlusTwo(Player p) {
         super(p);
+        ro1 = r.nextBoolean();
+        ro2 = r.nextBoolean();
+        ro3 = r.nextBoolean();
     }
 
     int i = 0;
@@ -30,6 +33,9 @@ public class InfinityPlusTwo extends Skill {
     Location loc1 = p.getTargetBlock(null, 50).getLocation();
     Location loc2 = p.getTargetBlock(null, 25).getLocation().add(r.nextDouble()*10-5D, r.nextDouble()*10-5D, r.nextDouble()*10-5D);;
     Location loc3 = p.getTargetBlock(null, 10).getLocation().add(r.nextDouble()*5-2.5D, r.nextDouble()*5-2.5D, r.nextDouble()*5-2.5D);;
+    boolean ro1;
+    boolean ro2;
+    boolean ro3;
 
     @Override
     public void Update() {
@@ -45,67 +51,67 @@ public class InfinityPlusTwo extends Skill {
         switch(i) {
             case 1:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 5, dd1);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 3, dd1, ro1);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 4:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 3, dd1);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 2, dd1, ro1);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 7:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 1, dd1);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc1, p, i1, 1, dd1, ro1);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 if(true) {
 
                     double dis = Double.MAX_VALUE;
                     for(Entity en : p.getWorld().getNearbyEntities(BoundingBox.of(p.getLocation(), 10, 10, 10))) {
-                        if(!en.equals(p)&&en instanceof LivingEntity le&&le.getLocation().distance(p.getLocation())<dis) {
+                        if(!en.equals(p)&&en instanceof LivingEntity le&&le.getLocation().distance(p.getLocation())<dis&&!le.isDead()) {
                             loc2 = le.getLocation();
                             dis = le.getLocation().distance(p.getLocation());
                         }
                     }
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 5, dd2);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 3, dd2, ro2);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 10:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 3, dd2);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 2, dd2, ro2);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 13:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 1, dd2);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc2, p, i2, 1, dd2, ro2);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 if(true) {
 
                     for(Entity en : p.getWorld().getNearbyEntities(BoundingBox.of(p.getLocation(), 10, 10, 10))) {
                         double dis = Double.MAX_VALUE;
-                        if(!en.equals(p)&&en instanceof LivingEntity le&&le.getLocation().distance(p.getLocation())<dis) {
+                        if(!en.equals(p)&&en instanceof LivingEntity le&&le.getLocation().distance(p.getLocation())<dis&&!le.isDead()) {
                             loc3 = le.getLocation();
                             dis = le.getLocation().distance(p.getLocation());
                         }
                     }
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 5, dd3);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 3, dd3, ro3);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 16:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 3, dd3);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 2, dd3, ro3);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;
             case 19:
                 if(true) {
-                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 1, dd3);
+                    Zenith en = new Zenith(w, p.getLocation().add(0, 1.5, 0), loc3, p, i3, 1, dd3, ro3);
                     w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
                 }
                 break;

@@ -14,7 +14,7 @@ public class Grass extends Skill {
     @Override
     public void Update() {
         World w = ((CraftWorld)p.getWorld()).getHandle();
-        GrassEntity en = new GrassEntity(w, p.getLocation(), p);
+        GrassEntity en = new GrassEntity(w, p.getLocation().add(0, 1.5, 0), p);
         w.addFreshEntity(en, CreatureSpawnEvent.SpawnReason.COMMAND);
         isEnd = true;
     }

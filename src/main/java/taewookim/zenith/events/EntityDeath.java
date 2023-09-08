@@ -42,10 +42,8 @@ public class EntityDeath implements Listener {
         if(e.getEntity() instanceof Evoker &&r.nextDouble()<0.1) {
             e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Weapon.MURAMASA.getItem());
         }
-        for(ItemStack i : e.getDrops()) {
-            if(i.getType().equals(Material.PUMPKIN)&&r.nextDouble()<0.05) {
-                e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Weapon.THE_HORSEMANS_BLADE.getItem());
-            }
+        if(e.getEntity() instanceof Horse &&r.nextDouble()<0.05) {
+            e.getEntity().getWorld().dropItem(e.getEntity().getLocation(), Weapon.THE_HORSEMANS_BLADE.getItem());
         }
     }
 }

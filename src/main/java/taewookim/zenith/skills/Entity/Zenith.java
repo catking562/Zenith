@@ -31,10 +31,10 @@ public class Zenith extends Display.ItemDisplay {
     double b;
     int num;
     int size;
+    boolean ro = false;
 
-    public Zenith(World world, Location loc, Location targetloc, Player p, int num, int size, double dd) {
+    public Zenith(World world, Location loc, Location targetloc, Player p, int num, int size, double dd, boolean ro) {
         super(EntityTypes.ae, world);
-        this.getBukkitEntity().teleport(p.getLocation().add(p.getLocation().getDirection().multiply(2)));
         ItemStack i = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta m = i.getItemMeta();
         m.setCustomModelData(num + 29);
@@ -55,6 +55,14 @@ public class Zenith extends Display.ItemDisplay {
         this.num = num;
         this.size = size;
         ZenithPlugin.entities.add(this.getBukkitEntity());
+        Location ll = getLocation(time);
+        ll.setDirection(getLocation(time+1.0D/5.0D).add(getLocation(time).multiply(-1)).toVector());
+        this.ro = ro;
+        try{
+            this.getBukkitEntity().teleport(ll);
+        }catch(Exception e) {
+            this.getBukkitEntity().teleport(p.getLocation());
+        }
     }
 
     public double getR(double t) {
@@ -67,16 +75,24 @@ public class Zenith extends Display.ItemDisplay {
             t = distan*2+4;
         }
         if(t<=distan+2) {
-            return loc.clone().add(-v.getZ()*getR(t) + v.getX()*t, v.getY()*t, v.getX()*getR(t) + v.getZ()*t);
+            if(ro) {
+                return loc.clone().add(-v.getZ()*getR(t) + v.getX()*t, v.getY()*t, v.getX()*getR(t) + v.getZ()*t);
+            }else {
+                return loc.clone().add(v.getZ()*getR(t) + v.getX()*t, v.getY()*t, -v.getX()*getR(t) + v.getZ()*t);
+            }
         }else {
             t = (distan+2)*2-t;
-            return loc.clone().add(v.getZ()*getR(t) + v.getX()*t, v.getY()*t, -v.getX()*getR(t) + v.getZ()*t);
+            if(ro) {
+                return loc.clone().add(v.getZ()*getR(t) + v.getX()*t, v.getY()*t, -v.getX()*getR(t) + v.getZ()*t);
+            }else {
+                return loc.clone().add(-v.getZ()*getR(t) + v.getX()*t, v.getY()*t, v.getX()*getR(t) + v.getZ()*t);
+            }
         }
     }
 
     public void SpawnParticle(Color color) {
         for(Player p : dI().getWorld().getPlayers()) {
-            p.spawnParticle(Particle.REDSTONE, this.getBukkitEntity().getLocation(), 1, 0, 0, 0, 0, new Particle.DustOptions(color, size*0.2f));
+            p.spawnParticle(Particle.REDSTONE, this.getBukkitEntity().getLocation().add(0, 0.5, 0), 1, 0, 0, 0, 0, new Particle.DustOptions(color, size*0.2f));
         }
     }
 
@@ -85,7 +101,7 @@ public class Zenith extends Display.ItemDisplay {
         for(int j =0;j<10;j++) {
            time+=distan/50.0D;
            Location ll = getLocation(time);
-           ll.setDirection(getLocation(time+1.0D/3.0D).add(getLocation(time).multiply(-1)).toVector());
+           ll.setDirection(getLocation(time+1.0D/5.0D).add(getLocation(time).multiply(-1)).toVector());
            try{
                this.getBukkitEntity().teleport(ll);
            }catch(Exception e) {
